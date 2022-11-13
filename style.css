@@ -41,6 +41,8 @@ body {
 .main_menu-levels {
     font-family: StratosSkyeng, Helvetica, sans-serif;
     font-weight: 400;
+    font-size: 64px;
+    line-height: 98px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -52,12 +54,37 @@ body {
 .main_menu-levels-item {
     height: 98px;
     width: 98px;
-    line-height: 98px;
-    color: #0080C1;
-    background: #FFFFFF;
-    font-size: 64px;
     border-radius: 12px;
+}
+
+.main_menu-levels-item-regular {
+    background: #FFFFFF;
+    color: #0080C1;
+}
+
+.main_menu-levels-item-checked {
+    background: #0080C1;
+    color: #FFFFFF;
+}
+
+.main_menu-levels-item:active {
+    transform: translateY(2px);
+}
+
+.main_menu-levels-item input[type='radio'] {
+    appearance:none;
+    height: 98px;
+    width: 98px;
+    position: relative;
+    z-index: 1000;
+}
+
+.main_menu-levels-item label {
+    height: 98px;
+    width: 98px;
+    position: absolute;
     text-align: center;
+    transform: translate(-100%, 0);
 }
 
 .main_menu-submit { 
@@ -75,4 +102,29 @@ body {
     border: none;
     margin-left: auto;
     margin-right: auto;
+    display: block;
+}
+
+.main_menu-submit:active {
+    transform: translateY(2px);
+    /* Moving button to y-axis */
+}
+
+.game {
+    background: #C2F5FF;
+    border-radius: 12px;
+    width: 480px;
+    height: 459px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: calc((100vh - 459px)/2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: StratosSkyeng, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    color: #004980;
 }
