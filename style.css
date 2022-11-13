@@ -1,0 +1,78 @@
+@font-face {
+    font-family: "StratosSkyeng";
+    src: url("static/stratosskyengweb-regular.woff") format('woff');
+  }
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #004980;
+    height: 100vh;
+}
+
+.main_menu {
+    background: #C2F5FF;
+    border-radius: 12px;
+    width: 480px;
+    height: 459px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: calc((100vh - 459px)/2);
+    display: flex;
+    flex-direction: column;
+}
+
+.main_menu-title {
+    font-family: StratosSkyeng, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    color: #004980;
+    margin-top: 52px;
+    width: 208px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main_menu-levels {
+    font-family: StratosSkyeng, Helvetica, sans-serif;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 48px;
+    margin-left: 69px;
+    margin-right: 69px;
+}
+
+.main_menu-levels-item {
+    height: 98px;
+    width: 98px;
+    line-height: 98px;
+    color: #0080C1;
+    background: #FFFFFF;
+    font-size: 64px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.main_menu-submit { 
+    font-family: StratosSkyeng, Helvetica, sans-serif;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 67px;
+    width: 246px;
+    height: 50px;
+    background: #7AC100;
+    border-radius: 12px;
+    border: none;
+    margin-left: auto;
+    margin-right: auto;
+}
