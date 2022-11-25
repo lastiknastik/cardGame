@@ -7,19 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Карточная игра</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-    <div class="main_menu">
-        <div class="main_menu-title">Выбери сложность</div>
-        <div class="main_menu-levels">
-            <div class="main_menu-levels-item">1</div>
-            <div class="main_menu-levels-item">2</div>
-            <div class="main_menu-levels-item">3</div>
-        </div>
-        <button class="main_menu-submit">Старт</button>
+    <div class="app">
+
     </div>
+    <script src="./src/template-engine.js"></script>
+    <script src="./src/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.app = initApp();
+            window.app.renderScreen('main_menu');
+        })
+    </script>
 </body>
 
 </html>
