@@ -485,6 +485,8 @@ function initApp() {
                 case 'mainMenu':
                     layoutClass = 'main-menu';
                     break;
+                default:
+                    layoutClass = screenName;
             }
 
             appBlock.classList.add(layoutClass);
