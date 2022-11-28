@@ -14,17 +14,22 @@
     ]
 }
 */
+// eslint-disable-next-line no-unused-vars
 function templateEngine(block) {
     if (block === undefined || block === null || block === false) {
         return document.createTextNode('');
     }
-    if (typeof block === 'string' || typeof block === 'number' || block === true) {
+    if (
+        typeof block === 'string' ||
+        typeof block === 'number' ||
+        block === true
+    ) {
         return document.createTextNode(block);
     }
     if (Array.isArray(block)) {
         const fragment = document.createDocumentFragment();
 
-        block.forEach(element => {
+        block.forEach((element) => {
             fragment.appendChild(templateEngine(element));
         });
 
@@ -35,7 +40,7 @@ function templateEngine(block) {
 
     if (block.cls) {
         const classes = [].concat(block.cls);
-        classes.forEach(cls => {
+        classes.forEach((cls) => {
             result.classList.add(cls);
         });
     }
@@ -43,7 +48,7 @@ function templateEngine(block) {
     if (block.attrs) {
         const keys = Object.keys(block.attrs);
 
-        keys.forEach(key => {
+        keys.forEach((key) => {
             result.setAttribute(key, block.attrs[key]);
         });
     }
