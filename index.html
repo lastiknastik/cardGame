@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Карточная игра</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карточная игра</title>
-</head>
-
-<body>
-    <div class="app">
-
-    </div>
-    <link rel="stylesheet" href="./static/style.css">
-    <script src="./src/template-engine.js"></script>
-    <script src="./src/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            window.app = initApp();
-            window.app.renderScreen('main_menu');
-        })
-    </script>
-</body>
-
+    <body>
+        <div class="app"></div>
+        <link rel="stylesheet" href="./static/style.css" />
+        <script src="./src/template-engine.js"></script>
+        <script src="./src/app.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                window.app = initApp();
+                window.app.renderScreen('mainMenu');
+            });
+        </script>
+    </body>
 </html>

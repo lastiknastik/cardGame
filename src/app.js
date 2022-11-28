@@ -192,7 +192,7 @@ function initApp() {
                 appBlock.appendChild(
                     templateEngine({
                         tag: 'div',
-                        cls: 'main_menu-title',
+                        cls: 'main-menu-title',
                         content: 'Выбери сложность',
                     })
                 );
@@ -203,13 +203,13 @@ function initApp() {
                         content: [
                             {
                                 tag: 'div',
-                                cls: 'main_menu-levels',
+                                cls: 'main-menu-levels',
                                 content: [
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main_menu-levels-item',
-                                            'main_menu-levels-item-regular',
+                                            'main-menu-levels-item',
+                                            'main-menu-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -232,8 +232,8 @@ function initApp() {
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main_menu-levels-item',
-                                            'main_menu-levels-item-regular',
+                                            'main-menu-levels-item',
+                                            'main-menu-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -256,8 +256,8 @@ function initApp() {
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main_menu-levels-item',
-                                            'main_menu-levels-item-regular',
+                                            'main-menu-levels-item',
+                                            'main-menu-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -281,7 +281,7 @@ function initApp() {
                             },
                             {
                                 tag: 'button',
-                                cls: 'main_menu-submit',
+                                cls: 'main-menu-submit',
                                 content: 'Старт',
                             },
                         ],
@@ -289,13 +289,13 @@ function initApp() {
                 );
 
                 appBlock
-                    .querySelector('.main_menu-levels')
+                    .querySelector('.main-menu-levels')
                     .addEventListener('click', function (e) {
                         if (e.target.tagName === 'INPUT') {
                             e.stopPropagation();
 
                             const levels = appBlock.querySelectorAll(
-                                '.main_menu-levels-item input'
+                                '.main-menu-levels-item input'
                             );
 
                             for (const l of levels) {
@@ -303,17 +303,17 @@ function initApp() {
 
                                 if (l.checked) {
                                     levelItem.classList.remove(
-                                        'main_menu-levels-item-regular'
+                                        'main-menu-levels-item-regular'
                                     );
                                     levelItem.classList.add(
-                                        'main_menu-levels-item-checked'
+                                        'main-menu-levels-item-checked'
                                     );
                                 } else {
                                     levelItem.classList.remove(
-                                        'main_menu-levels-item-checked'
+                                        'main-menu-levels-item-checked'
                                     );
                                     levelItem.classList.add(
-                                        'main_menu-levels-item-regular'
+                                        'main-menu-levels-item-regular'
                                     );
                                 }
                             }
@@ -326,7 +326,7 @@ function initApp() {
                         e.preventDefault();
 
                         const levels = appBlock.querySelectorAll(
-                            '.main_menu-levels-item input'
+                            '.main-menu-levels-item input'
                         );
                         let level = 0;
 
@@ -483,7 +483,7 @@ function initApp() {
             let layoutClass = '';
             switch (screenName) {
                 case 'mainMenu':
-                    layoutClass = 'main_menu';
+                    layoutClass = 'main-menu';
                     break;
             }
 

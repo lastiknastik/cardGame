@@ -1,14 +1,14 @@
 @font-face {
-    font-family: "StratosSkyeng";
-    src: url("stratosskyengweb-regular.woff") format('woff');
+    font-family: StratosSkyeng;
+    src: url('stratosskyengweb-regular.woff') format('woff');
 }
 
 @font-face {
-    font-family: "StratosSkyeng";
-    src: url("stratosskyengweb-regular.woff2") format('woff2');
+    font-family: StratosSkyeng;
+    src: url('stratosskyengweb-regular.woff2') format('woff2');
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: StratosSkyeng, Helvetica, sans-serif;
@@ -18,19 +18,19 @@ body {
     background: #004980;
 }
 
-.main_menu {
-    background: #C2F5FF;
+.main-menu {
+    background: #c2f5ff;
     border-radius: 12px;
     width: 480px;
     height: 459px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: calc((100vh - 459px)/2);
+    margin-top: calc((100vh - 459px) / 2);
     display: flex;
     flex-direction: column;
 }
 
-.main_menu-title {
+.main-menu-title {
     font-weight: 400;
     font-size: 40px;
     line-height: 48px;
@@ -42,7 +42,7 @@ body {
     margin-right: auto;
 }
 
-.main_menu-levels {
+.main-menu-levels {
     font-weight: 400;
     font-size: 64px;
     line-height: 98px;
@@ -54,35 +54,35 @@ body {
     margin-right: 69px;
 }
 
-.main_menu-levels-item {
+.main-menu-levels-item {
     height: 98px;
     width: 98px;
     border-radius: 12px;
 }
 
-.main_menu-levels-item-regular {
-    background: #FFFFFF;
-    color: #0080C1;
+.main-menu-levels-item-regular {
+    background: #fff;
+    color: #0080c1;
 }
 
-.main_menu-levels-item-checked {
-    background: #0080C1;
-    color: #FFFFFF;
+.main-menu-levels-item-checked {
+    background: #0080c1;
+    color: #fff;
 }
 
-.main_menu-levels-item:active {
+.main-menu-levels-item:active {
     transform: translateY(2px);
 }
 
-.main_menu-levels-item input[type='radio'] {
-    appearance:none;
+.main-menu-levels-item input[type='radio'] {
+    appearance: none;
     height: 98px;
     width: 98px;
     position: relative;
     z-index: 1000;
 }
 
-.main_menu-levels-item label {
+.main-menu-levels-item label {
     height: 98px;
     width: 98px;
     position: absolute;
@@ -90,14 +90,10 @@ body {
     transform: translate(-100%, 0);
 }
 
-.main_menu-submit { 
+.main-menu-submit {
     margin-top: 67px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.main_menu-submit:active {
-    transform: translateY(2px);
 }
 
 .game {
@@ -115,30 +111,34 @@ body {
 }
 
 .game-header-actions-submit,
-.main_menu-submit{
-    color: #FFFFFF;
+.main-menu-submit {
+    color: #fff;
     text-align: center;
     font-weight: 400;
     font-size: 24px;
     line-height: 32px;
     width: 246px;
     height: 50px;
-    background: #7AC100;
+    background: #7ac100;
     border-radius: 12px;
     border: none;
     display: block;
+}
+
+.main-menu-submit:active {
+    transform: translateY(2px);
 }
 
 .game-timer {
     display: flex;
     flex-direction: row;
     margin-top: auto;
-    color: #FFFFFF;
+    color: #fff;
     font-size: 64px;
     line-height: 72px;
 }
 
-.game-timer-min::after, 
+.game-timer-min::after,
 .game-timer-sec::after {
     font-size: 16px;
     line-height: 32px;
@@ -147,39 +147,43 @@ body {
 }
 
 .game-timer-min::after {
-    content: 'min'
+    content: 'min';
 }
 
 .game-timer-sec::after {
-    content: 'sec'
+    content: 'sec';
 }
 
 .game-content {
     --column-gap: 15px;
     --card-width: 95px;
+
     display: grid;
     row-gap: 15px;
     column-gap: var(--column-gap);
-    margin-top: 46px!important;
-    margin-bottom: 49px!important;
+    margin-top: 46px !important;
+    margin-bottom: 49px !important;
 }
 
 /* 36 cards */
 .game-content-grid-3 {
     grid-template-columns: repeat(9, auto);
-    margin: auto calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
+    margin: auto
+        calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
 }
 
 /* 18 cards */
 .game-content-grid-2 {
     grid-template-columns: repeat(6, auto);
-    margin: auto calc((100% - 6 * var(--card-width) - 5 * var(--column-gap)) / 2);
+    margin: auto
+        calc((100% - 6 * var(--card-width) - 5 * var(--column-gap)) / 2);
 }
 
 /* 8 cards */
 .game-content-grid-1 {
     grid-template-columns: repeat(4, auto);
-    margin: auto calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
+    margin: auto
+        calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
 }
 
 /* cards styles and behaviour */
@@ -192,16 +196,16 @@ body {
     transform-style: preserve-3d;
 }
 
-.card-front, .card-back {
+.card-front,
+.card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
 .card-front {
-    background-image: url("./img/card_back_side.svg");
+    background-image: url('./img/card_back_side.svg');
 }
 
 .card-back {
@@ -209,8 +213,13 @@ body {
 }
 
 @keyframes show-card {
-    10% { transform: rotateY(180deg); }
-    90% { transform: rotateY(180deg); }
+    10% {
+        transform: rotateY(180deg);
+    }
+
+    90% {
+        transform: rotateY(180deg);
+    }
 }
 
 .game-content-card-show {
