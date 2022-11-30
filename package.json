@@ -1,0 +1,40 @@
+{
+    "name": "homework41",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "http-server -p 3004",
+        "format": "prettier —write .",
+        "lint:js": "eslint './src/*.js'",
+        "lint:css": "stylelint './static/**.css'",
+        "lint": "npm run lint:js && npm run lint:css",
+        "prepare": "husky install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lastiknastik/cardGame.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lastiknastik/cardGame/issues"
+    },
+    "homepage": "https://github.com/lastiknastik/cardGame#readme",
+    "dependencies": {
+        "http-server": "^14.1.1"
+    },
+    "devDependencies": {
+        "eslint": "^8.28.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "husky": "^8.0.2",
+        "prettier": "^2.8.0",
+        "stylelint": "^14.15.0",
+        "stylelint-config-prettier": "^9.0.4",
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-prettier": "^2.0.0"
+    }
+}
