@@ -4,9 +4,11 @@ const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-    entry: './src/app.js',
-    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+    entry: './index.js',
+    mode: isProduction ? 'production' : 'development',
     module: {
         rules: [
             {
@@ -27,10 +29,7 @@ module.exports = {
             },
         ],
     },
-    devtool:
-        process.env.NODE_ENV === 'production'
-            ? 'hidden-source-map'
-            : 'inline-source-map',
+    devtool: isProduction ? 'hidden-source-map' : 'inline-source-map',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
@@ -38,7 +37,7 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin({
-            patterns: [{ from: 'static/img', to: 'static' }],
+            patterns: [{ from: 'static/img', to: 'static/img' }],
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',

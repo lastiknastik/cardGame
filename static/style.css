@@ -165,11 +165,11 @@ body {
     margin-bottom: 49px !important;
 }
 
-/* 36 cards */
-.game-content-grid-3 {
-    grid-template-columns: repeat(9, auto);
+/* 8 cards */
+.game-content-grid-1 {
+    grid-template-columns: repeat(4, auto);
     margin: auto
-        calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
+        calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
 }
 
 /* 18 cards */
@@ -179,11 +179,11 @@ body {
         calc((100% - 6 * var(--card-width) - 5 * var(--column-gap)) / 2);
 }
 
-/* 8 cards */
-.game-content-grid-1 {
-    grid-template-columns: repeat(4, auto);
+/* 36 cards */
+.game-content-grid-3 {
+    grid-template-columns: repeat(9, auto);
     margin: auto
-        calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
+        calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
 }
 
 /* cards styles and behaviour */
@@ -194,6 +194,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     transform-style: preserve-3d;
+    transition-duration: 0.5s;
 }
 
 .card-front,
@@ -212,18 +213,6 @@ body {
     transform: rotateY(180deg);
 }
 
-@keyframes show-card {
-    10% {
-        transform: rotateY(180deg);
-    }
-
-    90% {
-        transform: rotateY(180deg);
-    }
-}
-
 .game-content-card-show {
-    animation-name: show-card;
-    animation-direction: alternate;
-    animation-duration: 5s;
+    transform: rotateY(180deg);
 }
