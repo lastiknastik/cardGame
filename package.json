@@ -6,7 +6,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "startOld": "http-server -p 3004 -c-1",
+        "startOld": "npm run build && http-server -p 3004 -c-1",
         "start": "webpack-dev-server --open",
         "format": "prettier —write .",
         "lint:js": "eslint './src/*.js'",
@@ -45,6 +45,8 @@
         "stylelint-config-prettier": "^9.0.4",
         "stylelint-config-standard": "^29.0.0",
         "stylelint-prettier": "^2.0.0",
+        "ts-loader": "^9.4.2",
+        "typescript": "^4.9.4",
         "webpack": "^5.75.0",
         "webpack-cli": "^5.0.0",
         "webpack-dev-server": "^4.11.1"

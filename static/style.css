@@ -18,7 +18,7 @@ body {
     background: #004980;
 }
 
-.main-menu {
+.lobby {
     background: #c2f5ff;
     border-radius: 12px;
     width: 480px;
@@ -30,7 +30,7 @@ body {
     flex-direction: column;
 }
 
-.main-menu-title {
+.lobby-title {
     font-weight: 400;
     font-size: 40px;
     line-height: 48px;
@@ -42,7 +42,7 @@ body {
     margin-right: auto;
 }
 
-.main-menu-levels {
+.lobby-levels {
     font-weight: 400;
     font-size: 64px;
     line-height: 98px;
@@ -54,27 +54,29 @@ body {
     margin-right: 69px;
 }
 
-.main-menu-levels-item {
+.lobby-levels-item {
     height: 98px;
     width: 98px;
     border-radius: 12px;
 }
 
-.main-menu-levels-item-regular {
+.lobby-levels-item-regular {
     background: #fff;
     color: #0080c1;
 }
 
-.main-menu-levels-item-checked {
+.lobby-levels-item-checked {
     background: #0080c1;
     color: #fff;
 }
 
-.main-menu-levels-item:active {
+/*
+ {
     transform: translateY(2px);
 }
+*/
 
-.main-menu-levels-item input[type='radio'] {
+.lobby-levels-item input[type='radio'] {
     appearance: none;
     height: 98px;
     width: 98px;
@@ -82,7 +84,7 @@ body {
     z-index: 1000;
 }
 
-.main-menu-levels-item label {
+.lobby-levels-item label {
     height: 98px;
     width: 98px;
     position: absolute;
@@ -90,7 +92,7 @@ body {
     transform: translate(-100%, 0);
 }
 
-.main-menu-submit {
+.lobby-submit {
     margin-top: 67px;
     margin-left: auto;
     margin-right: auto;
@@ -110,8 +112,9 @@ body {
     margin-top: 41px;
 }
 
-.game-header-actions-submit,
-.main-menu-submit {
+.game-header-actions-restart,
+.lobby-submit,
+.resolution-content-actions-restart {
     color: #fff;
     text-align: center;
     font-weight: 400;
@@ -123,9 +126,13 @@ body {
     border-radius: 12px;
     border: none;
     display: block;
+    cursor: pointer;
 }
 
-.main-menu-submit:active {
+.game-header-actions-restart:active,
+.lobby-submit:active,
+.lobby-levels-item:active,
+.resolution-content-actions-restart:active {
     transform: translateY(2px);
 }
 
@@ -215,4 +222,61 @@ body {
 
 .game-content-card-show {
     transform: rotateY(180deg);
+}
+
+/* resolution screen */
+.resolution {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgb(0 73 128 / 90%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.resolution-content {
+    width: 480px;
+    margin-left: calc(50% - 240px);
+    background: #c2f5ff;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    align-items: center;
+}
+
+.resolution-content-icon {
+    width: 96px;
+    height: 96px;
+}
+
+.resolution-content h1 {
+    font-size: 40px;
+    line-height: 48px;
+    color: #004980;
+}
+
+.resolution-content-time {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.resolution-content-time-label {
+    font-size: 24px;
+    line-height: 32px;
+    color: #000;
+}
+
+.resolution-content-time-value {
+    font-size: 64px;
+    line-height: 72px;
+    color: #000;
 }

@@ -5,15 +5,20 @@ export function initApp() {
     const app = {
         state: {
             showedCards: [],
+            timeSec: 0,
         },
         screens: {
-            mainMenu: function () {
+            lobby: function () {
+                clearInterval(app.state.timerInterval);
                 const appBlock = document.querySelector('.app');
+
+                appBlock.textContent = '';
+                app.setLayoutClass('lobby');
 
                 appBlock.appendChild(
                     templateEngine({
                         tag: 'div',
-                        cls: 'main-menu-title',
+                        cls: 'lobby-title',
                         content: 'Выбери сложность',
                     })
                 );
@@ -24,13 +29,13 @@ export function initApp() {
                         content: [
                             {
                                 tag: 'div',
-                                cls: 'main-menu-levels',
+                                cls: 'lobby-levels',
                                 content: [
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main-menu-levels-item',
-                                            'main-menu-levels-item-regular',
+                                            'lobby-levels-item',
+                                            'lobby-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -53,8 +58,8 @@ export function initApp() {
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main-menu-levels-item',
-                                            'main-menu-levels-item-regular',
+                                            'lobby-levels-item',
+                                            'lobby-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -77,8 +82,8 @@ export function initApp() {
                                     {
                                         tag: 'div',
                                         cls: [
-                                            'main-menu-levels-item',
-                                            'main-menu-levels-item-regular',
+                                            'lobby-levels-item',
+                                            'lobby-levels-item-regular',
                                         ],
                                         content: [
                                             {
@@ -102,7 +107,7 @@ export function initApp() {
                             },
                             {
                                 tag: 'button',
-                                cls: 'main-menu-submit',
+                                cls: 'lobby-submit',
                                 content: 'Старт',
                             },
                         ],
@@ -110,13 +115,13 @@ export function initApp() {
                 );
 
                 appBlock
-                    .querySelector('.main-menu-levels')
+                    .querySelector('.lobby-levels')
                     .addEventListener('click', function (e) {
                         if (e.target.tagName === 'INPUT') {
                             e.stopPropagation();
 
                             const levels = appBlock.querySelectorAll(
-                                '.main-menu-levels-item input'
+                                '.lobby-levels-item input'
                             );
 
                             for (const l of levels) {
@@ -124,17 +129,17 @@ export function initApp() {
 
                                 if (l.checked) {
                                     levelItem.classList.remove(
-                                        'main-menu-levels-item-regular'
+                                        'lobby-levels-item-regular'
                                     );
                                     levelItem.classList.add(
-                                        'main-menu-levels-item-checked'
+                                        'lobby-levels-item-checked'
                                     );
                                 } else {
                                     levelItem.classList.remove(
-                                        'main-menu-levels-item-checked'
+                                        'lobby-levels-item-checked'
                                     );
                                     levelItem.classList.add(
-                                        'main-menu-levels-item-regular'
+                                        'lobby-levels-item-regular'
                                     );
                                 }
                             }
@@ -147,7 +152,7 @@ export function initApp() {
                         e.preventDefault();
 
                         const levels = appBlock.querySelectorAll(
-                            '.main-menu-levels-item input'
+                            '.lobby-levels-item input'
                         );
                         let level = 0;
 
@@ -164,7 +169,13 @@ export function initApp() {
                     });
             },
             game: function () {
+                app.state.timeSec = 0; //reset timer
+                app.state.status = ''; //reset the status
+                app.state.showedCards = [];
                 const appBlock = document.querySelector('.app');
+
+                appBlock.textContent = '';
+                app.setLayoutClass('game');
 
                 const gameDifficultyLevel = Number(app.state.diffLevel);
 
@@ -199,7 +210,7 @@ export function initApp() {
                                 content: [
                                     {
                                         tag: 'button',
-                                        cls: 'game-header-actions-submit',
+                                        cls: 'game-header-actions-restart',
                                         content: 'Начать заново',
                                     },
                                 ],
@@ -207,6 +218,13 @@ export function initApp() {
                         ],
                     })
                 );
+
+                //restart the game
+                appBlock
+                    .querySelector('.game-header-actions-restart')
+                    .addEventListener('click', function () {
+                        app.renderScreen('lobby');
+                    });
 
                 const gameContentElement = appBlock.appendChild(
                     templateEngine({
@@ -253,7 +271,11 @@ export function initApp() {
                                     app.state.showedCards[0].rank ===
                                     pickedCard.rank
                                 ) {
-                                    alert('well done!');
+                                    app.state.pairsNum--;
+                                    if (app.state.pairsNum === 0) {
+                                        app.state.status = 'resolved-won';
+                                        app.renderNextScreen();
+                                    }
                                 } else {
                                     alert('oh noooo');
 
@@ -264,8 +286,10 @@ export function initApp() {
                                     );
 
                                     hideCard(prevCard);
-                                }
 
+                                    app.state.status = 'resolved-lost';
+                                    app.renderNextScreen();
+                                }
                                 app.state.showedCards = [];
                             }, 500);
                         } else {
@@ -290,7 +314,22 @@ export function initApp() {
 
                 const cardsShuffled = cards.sort(() => Math.random() - 0.5);
 
+                let uniqueCards = []; //helps to count pairs on the table
+                app.state.pairsNum = 0;
+
                 for (let i = 0; i < numberOfCards; i++) {
+                    const pairCardIndex = uniqueCards.indexOf(
+                        cardsShuffled[i].rank
+                    );
+
+                    //array of unique cards contains a card with the same rank - it a pair
+                    if (pairCardIndex > -1) {
+                        uniqueCards.splice(pairCardIndex, 1);
+                        app.state.pairsNum++;
+                    } else {
+                        uniqueCards.push(cardsShuffled[i].rank);
+                    }
+
                     gameContentElement.appendChild(
                         templateEngine({
                             tag: 'div',
@@ -328,6 +367,97 @@ export function initApp() {
                             }, 5000);
                         });
                 }, 0);
+
+                //update game timer
+                app.state.timerInterval = setInterval(() => {
+                    app.state.timeSec++;
+
+                    const minElement =
+                        appBlock.querySelector('.game-timer-min');
+
+                    minElement.innerText = String(
+                        Math.floor(app.state.timeSec / 60)
+                    ).padStart(2, '0');
+
+                    const secElement =
+                        appBlock.querySelector('.game-timer-sec');
+
+                    secElement.innerText = String(
+                        app.state.timeSec % 60
+                    ).padStart(2, '0');
+                }, 1000);
+            },
+            resolution: function () {
+                app.state.stage = 'resolution';
+                clearInterval(app.state.timerInterval);
+
+                document.body.appendChild(
+                    templateEngine({
+                        tag: 'div',
+                        cls: 'resolution',
+                        content: [
+                            {
+                                tag: 'div',
+                                cls: 'resolution-content',
+                                content: [
+                                    {
+                                        tag: 'img',
+                                        cls: 'resolution-content-icon',
+                                        attrs: {
+                                            src:
+                                                app.state.status ===
+                                                'resolved-lost'
+                                                    ? './static/img/lost.png'
+                                                    : './static/img/won.png',
+                                        },
+                                    },
+                                    {
+                                        tag: 'h1',
+                                        content:
+                                            app.state.status === 'resolved-lost'
+                                                ? 'Вы проиграли!'
+                                                : 'Вы выиграли!',
+                                    },
+                                    {
+                                        tag: 'div',
+                                        cls: 'resolution-content-time',
+                                        content: [
+                                            {
+                                                tag: 'span',
+                                                cls: 'resolution-content-time-label',
+                                                content: 'Затраченное время:',
+                                            },
+                                            {
+                                                tag: 'span',
+                                                cls: 'resolution-content-time-value',
+                                                content: `${String(
+                                                    Math.floor(
+                                                        app.state.timeSec / 60
+                                                    )
+                                                ).padStart(2, '0')}.${String(
+                                                    app.state.timeSec % 60
+                                                ).padStart(2, '0')}`,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        tag: 'button',
+                                        cls: 'resolution-content-actions-restart',
+                                        content: 'Играть снова',
+                                    },
+                                ],
+                            },
+                        ],
+                    })
+                );
+
+                document
+                    .querySelector('.resolution-content-actions-restart')
+                    .addEventListener('click', function () {
+                        document.querySelector('.resolution').remove();
+
+                        app.renderScreen('lobby');
+                    });
             },
         },
         renderScreen: function (screenName) {
@@ -339,8 +469,22 @@ export function initApp() {
                 throw new Error(`Экрана ${screenName} не существует`);
             }
 
-            this.state.stage = screenName; //запомним текущее состояние
+            this.state.stage = screenName; //save current stage
 
+            this.screens[screenName]();
+        },
+        renderNextScreen: function () {
+            if (this.state.stage === 'lobby') {
+                this.renderScreen('game');
+            } else if (
+                this.state.stage === 'game' &&
+                (this.state.status === 'resolved-lost' ||
+                    this.state.status === 'resolved-won')
+            ) {
+                this.renderScreen('resolution');
+            }
+        },
+        setLayoutClass: function (className) {
             const appBlock = document.querySelector('.app');
 
             //allows to set different styles for different screens' parent element
@@ -348,31 +492,14 @@ export function initApp() {
                 appBlock.classList.remove(appBlock.dataset.specialClass);
             }
 
-            let layoutClass = '';
-            switch (screenName) {
-                case 'mainMenu':
-                    layoutClass = 'main-menu';
-                    break;
-                default:
-                    layoutClass = screenName;
-            }
-
-            appBlock.classList.add(layoutClass);
-            appBlock.dataset.specialClass = layoutClass;
-
-            appBlock.textContent = '';
-
-            this.screens[screenName]();
-        },
-        renderNextScreen: function () {
-            if (this.state.stage === 'mainMenu') {
-                this.renderScreen('game');
-            }
+            appBlock.classList.add(className);
+            appBlock.dataset.specialClass = className;
         },
     };
 
-    app.screens['mainMenu'].bind(app);
+    app.screens['lobby'].bind(app);
     app.screens['game'].bind(app);
+    app.screens['resolution'].bind(app);
 
     return app;
 }
