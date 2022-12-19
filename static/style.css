@@ -18,7 +18,7 @@ body {
     background: #004980;
 }
 
-.lobby {
+.main-menu {
     background: #c2f5ff;
     border-radius: 12px;
     width: 480px;
@@ -30,7 +30,7 @@ body {
     flex-direction: column;
 }
 
-.lobby-title {
+.main-menu-title {
     font-weight: 400;
     font-size: 40px;
     line-height: 48px;
@@ -42,7 +42,7 @@ body {
     margin-right: auto;
 }
 
-.lobby-levels {
+.main-menu-levels {
     font-weight: 400;
     font-size: 64px;
     line-height: 98px;
@@ -54,29 +54,27 @@ body {
     margin-right: 69px;
 }
 
-.lobby-levels-item {
+.main-menu-levels-item {
     height: 98px;
     width: 98px;
     border-radius: 12px;
 }
 
-.lobby-levels-item-regular {
+.main-menu-levels-item-regular {
     background: #fff;
     color: #0080c1;
 }
 
-.lobby-levels-item-checked {
+.main-menu-levels-item-checked {
     background: #0080c1;
     color: #fff;
 }
 
-/*
- {
+.main-menu-levels-item:active {
     transform: translateY(2px);
 }
-*/
 
-.lobby-levels-item input[type='radio'] {
+.main-menu-levels-item input[type='radio'] {
     appearance: none;
     height: 98px;
     width: 98px;
@@ -84,7 +82,7 @@ body {
     z-index: 1000;
 }
 
-.lobby-levels-item label {
+.main-menu-levels-item label {
     height: 98px;
     width: 98px;
     position: absolute;
@@ -92,7 +90,7 @@ body {
     transform: translate(-100%, 0);
 }
 
-.lobby-submit {
+.main-menu-submit {
     margin-top: 67px;
     margin-left: auto;
     margin-right: auto;
@@ -112,9 +110,8 @@ body {
     margin-top: 41px;
 }
 
-.game-header-actions-restart,
-.lobby-submit,
-.resolution-content-actions-restart {
+.game-header-actions-submit,
+.main-menu-submit {
     color: #fff;
     text-align: center;
     font-weight: 400;
@@ -126,13 +123,9 @@ body {
     border-radius: 12px;
     border: none;
     display: block;
-    cursor: pointer;
 }
 
-.game-header-actions-restart:active,
-.lobby-submit:active,
-.lobby-levels-item:active,
-.resolution-content-actions-restart:active {
+.main-menu-submit:active {
     transform: translateY(2px);
 }
 
@@ -172,11 +165,11 @@ body {
     margin-bottom: 49px !important;
 }
 
-/* 8 cards */
-.game-content-grid-1 {
-    grid-template-columns: repeat(4, auto);
+/* 36 cards */
+.game-content-grid-3 {
+    grid-template-columns: repeat(9, auto);
     margin: auto
-        calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
+        calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
 }
 
 /* 18 cards */
@@ -186,11 +179,11 @@ body {
         calc((100% - 6 * var(--card-width) - 5 * var(--column-gap)) / 2);
 }
 
-/* 36 cards */
-.game-content-grid-3 {
-    grid-template-columns: repeat(9, auto);
+/* 8 cards */
+.game-content-grid-1 {
+    grid-template-columns: repeat(4, auto);
     margin: auto
-        calc((100% - 9 * var(--card-width) - 8 * var(--column-gap)) / 2);
+        calc((100% - 4 * var(--card-width) - 3 * var(--column-gap)) / 2);
 }
 
 /* cards styles and behaviour */
@@ -201,7 +194,6 @@ body {
     margin-right: auto;
     margin-left: auto;
     transform-style: preserve-3d;
-    transition-duration: 0.5s;
 }
 
 .card-front,
@@ -220,63 +212,18 @@ body {
     transform: rotateY(180deg);
 }
 
+@keyframes show-card {
+    10% {
+        transform: rotateY(180deg);
+    }
+
+    90% {
+        transform: rotateY(180deg);
+    }
+}
+
 .game-content-card-show {
-    transform: rotateY(180deg);
-}
-
-/* resolution screen */
-.resolution {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    background: rgb(0 73 128 / 90%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.resolution-content {
-    width: 480px;
-    margin-left: calc(50% - 240px);
-    background: #c2f5ff;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    padding-top: 30px;
-    padding-bottom: 50px;
-    align-items: center;
-}
-
-.resolution-content-icon {
-    width: 96px;
-    height: 96px;
-}
-
-.resolution-content h1 {
-    font-size: 40px;
-    line-height: 48px;
-    color: #004980;
-}
-
-.resolution-content-time {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-}
-
-.resolution-content-time-label {
-    font-size: 24px;
-    line-height: 32px;
-    color: #000;
-}
-
-.resolution-content-time-value {
-    font-size: 64px;
-    line-height: 72px;
-    color: #000;
+    animation-name: show-card;
+    animation-direction: alternate;
+    animation-duration: 5s;
 }
