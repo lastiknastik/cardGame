@@ -14,8 +14,8 @@
     ]
 }
 */
-// eslint-disable-next-line no-unused-vars
-function templateEngine(block) {
+
+export function templateEngine(block: any): Node {
     if (block === undefined || block === null || block === false) {
         return document.createTextNode('');
     }
