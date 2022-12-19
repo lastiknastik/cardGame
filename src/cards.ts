@@ -1,4 +1,10 @@
-export const cards = [
+export type Card = {
+    type: string;
+    rank: string;
+    uri: string;
+};
+
+export const cards: Card[] = [
     {
         type: 'diamonds',
         rank: '6',

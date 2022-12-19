@@ -1,21 +1,50 @@
-import { templateEngine } from './lib/template-engine.js';
-import { cards } from './cards.js';
+import { templateEngine } from './lib/template-engine';
+import { cards, Card } from './cards';
 
-export function initApp() {
-    const app = {
+type Application = {
+    state: {
+        showedCards: { rank: string; type: string }[];
+        timeSec: number;
+        diffLevel: number;
+        timerInterval?: NodeJS.Timer;
+        status?: string;
+        pairsNum: number;
+        stage: string;
+    };
+    screens: {
+        [key: string]: () => void;
+        lobby: () => void;
+        game: () => void;
+        resolution: () => void;
+    };
+    setLayoutClass: (className: string) => void;
+    renderNextScreen: () => void;
+    renderScreen: (screenName: string) => void;
+};
+
+export function initApp(): Application {
+    const app: Application = {
         state: {
             showedCards: [],
             timeSec: 0,
+            pairsNum: 0,
+            diffLevel: -1,
+            stage: '',
         },
         screens: {
-            lobby: function () {
+            lobby: function (): void {
                 clearInterval(app.state.timerInterval);
-                const appBlock = document.querySelector('.app');
+                const appBlock: Element = document.querySelector(
+                    '.app'
+                ) as Element;
 
-                appBlock.textContent = '';
+                if (appBlock) {
+                    appBlock.textContent = '';
+                }
+
                 app.setLayoutClass('lobby');
 
-                appBlock.appendChild(
+                appBlock?.appendChild(
                     templateEngine({
                         tag: 'div',
                         cls: 'lobby-title',
@@ -23,7 +52,7 @@ export function initApp() {
                     })
                 );
 
-                appBlock.appendChild(
+                appBlock?.appendChild(
                     templateEngine({
                         tag: 'form',
                         content: [
@@ -115,17 +144,20 @@ export function initApp() {
                 );
 
                 appBlock
-                    .querySelector('.lobby-levels')
-                    .addEventListener('click', function (e) {
-                        if (e.target.tagName === 'INPUT') {
+                    ?.querySelector('.lobby-levels')
+                    ?.addEventListener('click', function (e: Event) {
+                        const target = e.target as HTMLElement;
+                        if (target.tagName === 'INPUT') {
                             e.stopPropagation();
 
-                            const levels = appBlock.querySelectorAll(
-                                '.lobby-levels-item input'
-                            );
+                            const levels: NodeListOf<HTMLInputElement> =
+                                appBlock.querySelectorAll(
+                                    '.lobby-levels-item input'
+                                );
 
                             for (const l of levels) {
-                                const levelItem = l.parentElement;
+                                const levelItem: HTMLElement =
+                                    l.parentElement as HTMLElement;
 
                                 if (l.checked) {
                                     levelItem.classList.remove(
@@ -147,18 +179,19 @@ export function initApp() {
                     });
 
                 appBlock
-                    .querySelector('form')
-                    .addEventListener('submit', function (e) {
+                    ?.querySelector('form')
+                    ?.addEventListener('submit', function (e: SubmitEvent) {
                         e.preventDefault();
 
-                        const levels = appBlock.querySelectorAll(
-                            '.lobby-levels-item input'
-                        );
-                        let level = 0;
+                        const levels: NodeListOf<HTMLInputElement> =
+                            appBlock.querySelectorAll(
+                                '.lobby-levels-item input'
+                            );
+                        let level: number = 0;
 
                         for (const l of levels) {
                             if (l.checked) {
-                                level = l.value;
+                                level = Number(l.value);
                                 break;
                             }
                         }
@@ -168,11 +201,11 @@ export function initApp() {
                         app.renderNextScreen();
                     });
             },
-            game: function () {
+            game: function (): void {
                 app.state.timeSec = 0; //reset timer
                 app.state.status = ''; //reset the status
                 app.state.showedCards = [];
-                const appBlock = document.querySelector('.app');
+                const appBlock = document.querySelector('.app') as Element;
 
                 appBlock.textContent = '';
                 app.setLayoutClass('game');
@@ -221,12 +254,12 @@ export function initApp() {
 
                 //restart the game
                 appBlock
-                    .querySelector('.game-header-actions-restart')
-                    .addEventListener('click', function () {
+                    ?.querySelector('.game-header-actions-restart')
+                    ?.addEventListener('click', function () {
                         app.renderScreen('lobby');
                     });
 
-                const gameContentElement = appBlock.appendChild(
+                const gameContentElement: Element = appBlock.appendChild(
                     templateEngine({
                         tag: 'div',
                         cls: [
@@ -234,37 +267,39 @@ export function initApp() {
                             `game-content-grid-${gameDifficultyLevel}`,
                         ],
                     })
-                );
-
-                const showCard = (element) => {
+                ) as Element;
+                //show card
+                const showCard = (element: HTMLElement) => {
                     if (element.classList.contains('card-front')) {
-                        element.parentElement.classList.add(
+                        element.parentElement?.classList.add(
                             'game-content-card-show'
                         );
                     }
                 };
-
-                const hideCard = (element) => {
+                //hide card
+                const hideCard = (element: HTMLElement) => {
                     if (element.classList.contains('card-front')) {
-                        element.parentElement.classList.remove(
+                        element.parentElement?.classList.remove(
                             'game-content-card-show'
                         );
                     }
                 };
 
                 //show card front side
-                gameContentElement.addEventListener('click', (e) => {
-                    const target = e.target;
+                gameContentElement.addEventListener('click', (e: Event) => {
+                    const target = e.target as HTMLElement;
                     if (target.classList.contains('card-front')) {
                         showCard(target);
 
+                        const targetParent =
+                            target.parentElement as HTMLElement;
                         //remember showed card
                         const pickedCard = {
-                            rank: target.parentElement.dataset.cardRank,
-                            type: target.parentElement.dataset.cardType,
+                            rank: targetParent.dataset.cardRank as string,
+                            type: targetParent.dataset.cardType as string,
                         };
 
-                        if (app.state.showedCards.length === 1) {
+                        if (app.state.showedCards?.length === 1) {
                             //500 is transition-duration
                             setTimeout(() => {
                                 if (
@@ -277,13 +312,12 @@ export function initApp() {
                                         app.renderNextScreen();
                                     }
                                 } else {
-                                    alert('oh noooo');
-
                                     hideCard(target);
 
-                                    const prevCard = document.querySelector(
-                                        `.game-content-card[data-card-rank="${app.state.showedCards[0].rank}"][data-card-type="${app.state.showedCards[0].type}"] .card-front`
-                                    );
+                                    const prevCard: HTMLElement =
+                                        document.querySelector(
+                                            `.game-content-card[data-card-rank="${app.state.showedCards[0].rank}"][data-card-type="${app.state.showedCards[0].type}"] .card-front`
+                                        ) as HTMLElement;
 
                                     hideCard(prevCard);
 
@@ -298,7 +332,7 @@ export function initApp() {
                     }
                 });
 
-                let numberOfCards = 0;
+                let numberOfCards: number = 0;
 
                 switch (gameDifficultyLevel) {
                     case 1:
@@ -312,13 +346,15 @@ export function initApp() {
                         break;
                 }
 
-                const cardsShuffled = cards.sort(() => Math.random() - 0.5);
+                const cardsShuffled: Card[] = cards.sort(
+                    () => Math.random() - 0.5
+                );
 
-                let uniqueCards = []; //helps to count pairs on the table
+                let uniqueCards: Array<string> = []; //helps to count pairs on the table
                 app.state.pairsNum = 0;
 
-                for (let i = 0; i < numberOfCards; i++) {
-                    const pairCardIndex = uniqueCards.indexOf(
+                for (let i: number = 0; i < numberOfCards; i++) {
+                    const pairCardIndex: number = uniqueCards.indexOf(
                         cardsShuffled[i].rank
                     );
 
@@ -357,30 +393,33 @@ export function initApp() {
 
                 //show all cards on screen render
                 setTimeout(() => {
-                    gameContentElement
-                        .querySelectorAll('.card-front')
-                        .forEach((c) => {
-                            showCard(c);
+                    const cardFronts: NodeListOf<HTMLElement> =
+                        gameContentElement.querySelectorAll('.card-front');
 
-                            setTimeout(() => {
-                                hideCard(c);
-                            }, 5000);
-                        });
+                    cardFronts.forEach((c) => {
+                        showCard(c);
+
+                        setTimeout(() => {
+                            hideCard(c);
+                        }, 5000);
+                    });
                 }, 0);
 
                 //update game timer
                 app.state.timerInterval = setInterval(() => {
                     app.state.timeSec++;
 
-                    const minElement =
-                        appBlock.querySelector('.game-timer-min');
+                    const minElement: HTMLDivElement = appBlock.querySelector(
+                        '.game-timer-min'
+                    ) as HTMLDivElement;
 
                     minElement.innerText = String(
                         Math.floor(app.state.timeSec / 60)
                     ).padStart(2, '0');
 
-                    const secElement =
-                        appBlock.querySelector('.game-timer-sec');
+                    const secElement: HTMLDivElement = appBlock.querySelector(
+                        '.game-timer-sec'
+                    ) as HTMLDivElement;
 
                     secElement.innerText = String(
                         app.state.timeSec % 60
@@ -452,15 +491,15 @@ export function initApp() {
                 );
 
                 document
-                    .querySelector('.resolution-content-actions-restart')
-                    .addEventListener('click', function () {
-                        document.querySelector('.resolution').remove();
+                    ?.querySelector('.resolution-content-actions-restart')
+                    ?.addEventListener('click', function () {
+                        document?.querySelector('.resolution')?.remove();
 
                         app.renderScreen('lobby');
                     });
             },
         },
-        renderScreen: function (screenName) {
+        renderScreen: function (screenName: string): void {
             if (!screenName) {
                 throw new Error('Требуется передать наименование экрана');
             }
@@ -473,7 +512,7 @@ export function initApp() {
 
             this.screens[screenName]();
         },
-        renderNextScreen: function () {
+        renderNextScreen: function (): void {
             if (this.state.stage === 'lobby') {
                 this.renderScreen('game');
             } else if (
@@ -484,8 +523,8 @@ export function initApp() {
                 this.renderScreen('resolution');
             }
         },
-        setLayoutClass: function (className) {
-            const appBlock = document.querySelector('.app');
+        setLayoutClass: function (className: string): void {
+            const appBlock = document.querySelector('.app') as HTMLElement;
 
             //allows to set different styles for different screens' parent element
             if (appBlock.dataset.specialClass) {
